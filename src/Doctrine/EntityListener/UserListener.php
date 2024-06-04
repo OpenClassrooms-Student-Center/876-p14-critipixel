@@ -17,6 +17,10 @@ final readonly class UserListener
     #[PrePersist]
     public function hashPassword(User $user): void
     {
+        if ($user->getPlainPassword() === null) {
+            return;
+        }
+
         $user->setPassword(
             $this->passwordHasher->hashPassword(
                 $user,

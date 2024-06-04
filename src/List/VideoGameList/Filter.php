@@ -28,11 +28,17 @@ final class Filter
         return $this;
     }
 
+    /**
+     * @return Tag[]
+     */
     public function getTags(): array
     {
         return $this->tags;
     }
 
+    /**
+     * @param Tag[] $tags
+     */
     public function setTags(array $tags): Filter
     {
         $this->tags = $tags;

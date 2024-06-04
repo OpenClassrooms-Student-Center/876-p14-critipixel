@@ -1,27 +1,27 @@
 parameters:
 
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
+  _defaults:
+    autowire: true
+    autoconfigure: true
 
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Model/'
-            - '../src/Kernel.php'
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Model/'
+      - '../src/Kernel.php'
 
-    Faker\Generator:
-        factory: ['App\Faker\FrenchGeneratorFactory', 'create']
+  Faker\Generator:
+    factory: ['App\Faker\FrenchGeneratorFactory', 'create']
 
-    App\Doctrine\EntityListener\UserListener:
-        tags:
-            - { name: doctrine.orm.entity_listener }
+  App\Doctrine\EntityListener\UserListener:
+    tags:
+      - { name: doctrine.orm.entity_listener }
 
-    gedmo.listener.sluggable:
-        class: Gedmo\Sluggable\SluggableListener
-        tags:
-            - { name: doctrine.event_listener, event: 'prePersist' }
-            - { name: doctrine.event_listener, event: 'onFlush' }
-            - { name: doctrine.event_listener, event: 'loadClassMetadata' }
+  gedmo.listener.sluggable:
+    class: Gedmo\Sluggable\SluggableListener
+    tags:
+      - { name: doctrine.event_listener, event: 'prePersist' }
+      - { name: doctrine.event_listener, event: 'onFlush' }
+      - { name: doctrine.event_listener, event: 'loadClassMetadata' }

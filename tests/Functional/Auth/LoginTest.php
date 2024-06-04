@@ -13,7 +13,7 @@ final class LoginTest extends FunctionalTestCase
     {
         $this->get('/auth/login');
 
-        $this->client->submitForm('Se connecter', [
+        $this->submit('Se connecter', [
             'email' => 'user+1@email.com',
             'password' => 'password'
         ]);
@@ -31,7 +31,7 @@ final class LoginTest extends FunctionalTestCase
     {
         $this->get('/auth/login');
 
-        $this->client->submitForm('Se connecter', [
+        $this->submit('Se connecter', [
             'email' => 'user+1@email.com',
             'password' => 'fail'
         ]);

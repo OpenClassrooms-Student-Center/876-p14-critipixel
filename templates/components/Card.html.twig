@@ -5,9 +5,9 @@
         </a>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="game-card-title">
+                <h2 class="game-card-title">
                     <a href="{{ path('video_games_show', {slug: video_game.slug}) }}" class="text-decoration-none">{{ video_game.title }}</a>
-                </h5>
+                </h2>
                 <p class="game-card-description">{{ video_game.description|u.truncate(130, '...', true)|raw }}</p>
                 <p class="game-card-text"><small class="text-muted">Sortie: {{ video_game.releaseDate|date('m/d/Y') }}</small></p>
                 <div class="game-card-tags">

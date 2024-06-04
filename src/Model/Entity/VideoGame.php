@@ -59,10 +59,10 @@ class VideoGame
     private string $description;
 
     #[Column(type: Types::DATE_IMMUTABLE)]
-    private DateTimeInterface $releaseDate;
+    private DateTimeImmutable $releaseDate;
 
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private DateTimeImmutable $updatedAt;
+    private ?DateTimeImmutable $updatedAt;
 
     #[Column(type: Types::TEXT, nullable: true)]
     private ?string $test = null;
@@ -78,14 +78,14 @@ class VideoGame
     private NumberOfRatingPerValue $numberOfRatingsPerValue;
 
     /**
-     * @var Collection<Tag>
+     * @var Collection<int, Tag>
      */
     #[ManyToMany(targetEntity: Tag::class)]
     #[JoinTable(name: 'video_game_tags')]
     private Collection $tags;
 
     /**
-     * @var Collection<Review>
+     * @var Collection<int, Review>
      */
     #[OneToMany(targetEntity: Review::class, mappedBy: 'videoGame')]
     private Collection $reviews;
@@ -166,12 +166,12 @@ class VideoGame
         return $this;
     }
 
-    public function getReleaseDate(): DateTimeInterface
+    public function getReleaseDate(): DateTimeImmutable
     {
         return $this->releaseDate;
     }
 
-    public function setReleaseDate(DateTimeInterface $releaseDate): VideoGame
+    public function setReleaseDate(DateTimeImmutable $releaseDate): VideoGame
     {
         $this->releaseDate = $releaseDate;
         return $this;
@@ -216,7 +216,7 @@ class VideoGame
     }
 
     /**
-     * @return Collection<Tag>
+     * @return Collection<int, Tag>
      */
     public function getTags(): Collection
     {
@@ -224,7 +224,7 @@ class VideoGame
     }
 
     /**
-     * @return Collection<Review>
+     * @return Collection<int, Review>
      */
     public function getReviews(): Collection
     {

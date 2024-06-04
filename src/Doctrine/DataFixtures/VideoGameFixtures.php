@@ -8,12 +8,12 @@ use App\Model\Entity\User;
 use App\Model\Entity\VideoGame;
 use App\Rating\CalculateAverageRating;
 use App\Rating\CountRatingsPerValue;
+use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
-
 use function array_fill_callback;
 
 final class VideoGameFixtures extends Fixture implements DependentFixtureInterface
@@ -29,20 +29,28 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
     {
         $tags = $manager->getRepository(Tag::class)->findAll();
 
-        $users = $manager->getRepository(User::class)->findAll();
+        $users = array_chunk(
+            $manager->getRepository(User::class)->findAll(),
+            5
+        );
+
+        /** @var string $fakeText */
+        $fakeText = $this->faker->paragraphs(5, true);
 
         $videoGames = array_fill_callback(0, 50, fn (int $index): VideoGame => (new VideoGame)
             ->setTitle(sprintf('Jeu vidéo %d', $index))
-            ->setDescription($this->faker->paragraphs(10, true))
-            ->setReleaseDate(new DateTimeImmutable())
-            ->setTest($this->faker->paragraphs(6, true))
+            ->setDescription($fakeText)
+            ->setReleaseDate((new DateTimeImmutable())->sub(new DateInterval(sprintf('P%dD', $index))))
+            ->setTest($fakeText)
             ->setRating(($index % 5) + 1)
             ->setImageName(sprintf('video_game_%d.png', $index))
             ->setImageSize(2_098_872)
         );
 
         array_walk($videoGames, static function (VideoGame $videoGame, int $index) use ($tags) {
-            $videoGame->getTags()->add($tags[$index % 5]);
+            for ($tagIndex = 0; $tagIndex < 5; $tagIndex++) {
+                $videoGame->getTags()->add($tags[($index + $tagIndex) % count($tags)]);
+            }
         });
 
         array_walk($videoGames, [$manager, 'persist']);
@@ -50,14 +58,17 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
         $manager->flush();
 
         array_walk($videoGames, function (VideoGame $videoGame, int $index) use ($users, $manager) {
-            shuffle($users);
+            $filteredUsers = $users[$index % 5];
 
-            foreach (array_slice($users, 0, 5) as $user) {
+            foreach ($filteredUsers as $i => $user) {
+                /** @var string $comment */
+                $comment = $this->faker->paragraphs(1, true);
+
                 $review = (new Review())
                     ->setUser($user)
                     ->setVideoGame($videoGame)
                     ->setRating($this->faker->numberBetween(1, 5))
-                    ->setComment($this->faker->paragraphs(1, true))
+                    ->setComment($comment)
                 ;
 
                 $videoGame->getReviews()->add($review);

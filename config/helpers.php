@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @template T of array
+ * @template T
  * @param callable(int $index): T $callback
  * @return array<int, T>
  */

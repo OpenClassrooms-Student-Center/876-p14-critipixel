@@ -24,6 +24,7 @@ class VideoGameVoter extends Voter
             return false;
         }
 
+        /** @var VideoGame $subject */
         return !$subject->hasAlreadyReview($user);
     }
 }
