@@ -13,9 +13,9 @@ use PHPUnit\Framework\TestCase;
 class CalculateAverageTest extends TestCase
 {
     /**
-     * Teste le calcul de la moyenne des notes pour un jeu vidéo sans avis.
-     * @param array $ratings Tableau de notes pour le jeu vidéo
-     * @param int|null $expectedAverage Moyenne attendue (arrondie avec ceil)
+     * Teste le calcul de la moyenne des notes pour un jeu vidéo avec avis.
+     * @param int[] $ratings Tableau de notes pour le jeu vidéo
+     * @param int $expectedAverage Moyenne attendue (arrondie avec ceil)
      *
      */
     #[DataProvider('provideVideoGameRatingsData')]
@@ -39,11 +39,13 @@ class CalculateAverageTest extends TestCase
         $handler->calculateAverage($videoGame);
 
         // 3. Assert : Vérification du résultat attendu (avec le ceil)
-        $this->assertSame($expectedAverage, $videoGame->getAverageRating());
+        self::assertSame($expectedAverage, $videoGame->getAverageRating());
     }
 
     /**
      * Fournit 5 cas de test différents (notes -> moyenne attendue avec ceil)
+     *
+     * @return array<string, array{ratings: int[], expectedAverage: int}>
      */
     public static function provideVideoGameRatingsData(): array
     {

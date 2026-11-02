@@ -12,6 +12,10 @@ use PHPUnit\Framework\TestCase;
 
 class CountRatingsPerValueTest extends TestCase
 {
+    /**
+     * @param int[] $ratings
+     * @param array<int, int> $expectedCounts
+     */
     #[DataProvider('provideRatingsForCountingData')]
     public function testCountRatingsPerValueWithReviews(array $ratings, array $expectedCounts): void
     {
@@ -32,15 +36,17 @@ class CountRatingsPerValueTest extends TestCase
         // 3. Assert : Vérification de chaque compteur dans l'objet imbriqué
         $counters = $videoGame->getNumberOfRatingsPerValue();
 
-        $this->assertSame($expectedCounts[1], $counters->getNumberOfOne(), 'Le nombre de notes 1 est incorrect');
-        $this->assertSame($expectedCounts[2], $counters->getNumberOfTwo(), 'Le nombre de notes 2 est incorrect');
-        $this->assertSame($expectedCounts[3], $counters->getNumberOfThree(), 'Le nombre de notes 3 est incorrect');
-        $this->assertSame($expectedCounts[4], $counters->getNumberOfFour(), 'Le nombre de notes 4 est incorrect');
-        $this->assertSame($expectedCounts[5], $counters->getNumberOfFive(), 'Le nombre de notes 5 est incorrect');
+        self::assertSame($expectedCounts[1], $counters->getNumberOfOne(), 'Le nombre de notes 1 est incorrect');
+        self::assertSame($expectedCounts[2], $counters->getNumberOfTwo(), 'Le nombre de notes 2 est incorrect');
+        self::assertSame($expectedCounts[3], $counters->getNumberOfThree(), 'Le nombre de notes 3 est incorrect');
+        self::assertSame($expectedCounts[4], $counters->getNumberOfFour(), 'Le nombre de notes 4 est incorrect');
+        self::assertSame($expectedCounts[5], $counters->getNumberOfFive(), 'Le nombre de notes 5 est incorrect');
     }
 
     /**
      * Fournit différents scénarios de notes et les résultats de comptage attendus [1 => nb, 2 => nb, ...]
+     *
+     * @return array<string, array{ratings: int[], expectedCounts: array<int, int>}>
      */
     public static function provideRatingsForCountingData(): array
     {
