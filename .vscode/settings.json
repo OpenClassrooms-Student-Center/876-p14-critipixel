@@ -1,0 +1,7 @@
+{
+  "phpstan.enabled": true,
+  "phpstan.configFile": "phpstan.dist.neon",
+  "phpstan.binPath": "vendor/bin/phpstan.bat",
+  "phpstan.enableStatusBar": true,
+  "phpstan.showProgress": true
+}
